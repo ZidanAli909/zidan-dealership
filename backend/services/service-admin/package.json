@@ -1,0 +1,12 @@
+{
+  "name": "service-admin",
+  "version": "1.0.0",
+  "description": "Admin Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["admin"],
+  "author": "Ahmad Zidan Ali",
+  "license": "ISC"
+}
