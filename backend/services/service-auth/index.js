@@ -1,17 +1,44 @@
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const port = 3003;
 
+const port = process.env.PORT || 3001;
+
+/*
+    Cek Koneksi Database
+*/
+const database = require('./configs/database');
+(async () => {
+  try {
+    await database.sequelize.authenticate();
+    await database.sequelize.sync(); // sync() = menyamakan, membuat tabel jika tidak cocok
+    console.log('Database connected');
+  } catch (err) {
+    console.error('Database connection error:', err);
+  }
+})();
+
+/*
+    Inisialisasi
+    -> Urutan mempengaruhi inisialisasi!
+*/
+// Passport
+const passport = require('passport');
+app.use(passport.initialize());
 // Bodyparser
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-// Main Endpoint
-router.get("/", (req, res) => {
-    res.send("Selamat datang di API Authentication!");
-});
+/*
+    Routes
+*/
+app.use(require('./routes/main'));
+app.use(require('./routes/auth_google'));
+//app.use(require('./routes/auth_local'));
 
-// Server Port
+/*
+    Port Exposure
+*/
 app.listen(port, () => {
-  console.log(`Server gateway berjalan pada: http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

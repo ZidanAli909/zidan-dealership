@@ -1,14 +1,15 @@
-import { DataTypes } from 'sequelize';
+const { DataTypes } = require('sequelize');
 
-const sequelize = require('../configs/database');
-
-const User = sequelize.define('User', {
-  id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-  username: {type: DataTypes.STRING, unique: true},
-  email: {type: DataTypes.STRING, unique: true},
-  password_hash: {type: DataTypes.STRING},
-  role: {type: DataTypes.STRING, defaultValue: 'user'},
-  provider: {type: DataTypes.STRING, defaultValue: 'local'}
-}, { tableName: 'Users' });
-
-module.exports = User;
+module.exports = (sequelize) => {
+    return sequelize.define('User', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    username: {type: DataTypes.STRING, unique: true, allowNull: false},
+    email: {type: DataTypes.STRING, unique: true, allowNull: false},
+    password_hash: {type: DataTypes.STRING},
+    provider: {type: DataTypes.STRING, defaultValue: 'local'},
+},
+{
+    tableName: 'users',
+    timestamps: false,
+});
+};
